@@ -1,0 +1,46 @@
+### Hello health check
+GET {{url_base}}/hello
+Accept: text/plain
+
+> {%
+client.test("Validate response status", function() {
+    client.assert(response.status === 200, "Response status is not 200");
+});
+client.test("Validate response content", function() {
+  client.assert(response.body === 'Hello World!!!', "Response string is not valid")
+})
+ %}
+
+### Get a single transaction by passing trans Id.
+POST {{url_base}}/trans/get
+Content-Type: application/json
+
+{
+  "transactionId": {{trans_id}}
+}
+
+> {%
+client.test("Validate response status", function() {
+    client.assert(response.status === 200, "Response status is not 200");
+});
+client.test("Validate response content", function() {
+  client.assert(response.body.hasOwnProperty("transactionId"), "Response JSON is not valid")
+  client.assert(response.body.transactionId === 100, "Response TransId is not 100")
+})
+ %}
+
+### Fetch all transactions
+POST {{url_base}}/trans/getAll
+Content-Type: application/json
+
+{}
+
+### Save a single transaction
+POST {{url_base}}/trans/save
+Content-Type: application/json
+
+{
+  "fromAccount": "BOA-CC",
+  "toAccount": "Cash",
+  "amount": {{$randomInt}}
+}
