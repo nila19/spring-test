@@ -1,6 +1,6 @@
 ### Hello health check
-GET {{url_base}}/hello
-Accept: text/plain
+GET {{url_base}}/hello/hello
+Content-Type: application/json
 
 > {%
 client.test("Validate response status", function() {
