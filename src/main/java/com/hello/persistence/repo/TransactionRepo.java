@@ -9,4 +9,6 @@ import com.hello.persistence.entity.Transaction;
 public interface TransactionRepo extends CrudRepository<Transaction, Long> {
   @Override
   List<Transaction> findAll();
+
+  List<Transaction> findByFromAccount(String fromAccount);
 }

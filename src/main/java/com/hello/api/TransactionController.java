@@ -21,11 +21,12 @@ public class TransactionController {
 
   @PostMapping(value = "/save")
   public Transaction saveTransaction(@RequestBody Transaction t) {
-    return this.transactionService.createTransaction(t.getFromAccount(), t.getToAccount(), t.getAmount());
+    return this.transactionService
+        .createTransaction(t.getFromAccount(), t.getToAccount(), t.getAmount());
   }
 
   @PostMapping(value = "/get")
-  public Transaction getTransaction(@RequestBody Transaction t) throws Exception {
+  public Transaction getTransaction(@RequestBody Transaction t) {
     return this.transactionService.getTransaction(t.getTransactionId());
   }
 

@@ -1,36 +1,54 @@
 plugins {
-    id "org.springframework.boot" version "2.0.1.RELEASE"
+    id "org.springframework.boot" version "2.3.0.RELEASE"
+    id 'io.spring.dependency-management' version "1.0.9.RELEASE"
+    id 'java'
+    id 'idea'
 }
 
-apply plugin: 'java'
-apply plugin: 'idea'
+//apply plugin: 'java'
+//apply plugin: 'idea'
 //apply plugin: 'war'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
+//apply plugin: 'org.springframework.boot'
+//apply plugin: 'io.spring.dependency-management'
 
 version = '0.0.1'
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+group = 'com.hello'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    compile('org.springframework.boot:spring-boot-starter-web')
-    compile('org.springframework.boot:spring-boot-devtools')
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('org.springframework.boot:spring-boot-devtools')
 //    compile('org.springframework.boot:spring-boot-starter-security')
-    compileOnly('org.projectlombok:lombok:1.18.10')
-    annotationProcessor 'org.projectlombok:lombok:1.18.10'
 
-    compile('org.javassist:javassist:3.26.0-GA')
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
 
-    runtime('com.h2database:h2')
+    implementation('org.projectlombok:lombok:1.18.12')
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+
+//    compile('org.javassist:javassist:3.26.0-GA')
+
+    implementation('com.h2database:h2')
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+    testImplementation('org.junit.jupiter:junit-jupiter-engine:5.6.2')
 
     // JAX-B dependencies for JDK 9+
-    implementation "javax.xml.bind:jaxb-api:2.2.11"
-    implementation "com.sun.xml.bind:jaxb-core:2.2.11"
-    implementation "com.sun.xml.bind:jaxb-impl:2.2.11"
-    implementation "javax.activation:activation:1.1.1"
+//    implementation "javax.xml.bind:jaxb-api:2.2.11"
+//    implementation "com.sun.xml.bind:jaxb-core:2.2.11"
+//    implementation "com.sun.xml.bind:jaxb-impl:2.2.11"
+//    implementation "javax.activation:activation:1.1.1"
+}
+
+tasks.named('test', Test) {
+    useJUnitPlatform()
 }

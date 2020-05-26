@@ -21,16 +21,13 @@ public class TransactionService {
 
   @Transactional(propagation = Propagation.REQUIRED)
   public Transaction createTransaction(String fromAc, String toAc, double amount) {
-    Transaction tran = new Transaction();
-    tran.setFromAccount(fromAc);
-    tran.setToAccount(toAc);
-    tran.setAmount(amount);
-    return this.transactionRepo.save(tran);
+    return this.transactionRepo.save(new Transaction(fromAc, toAc, amount));
   }
 
   @Transactional(readOnly = true)
-  public Transaction getTransaction(long id) throws Exception {
-    return this.transactionRepo.findById(id).orElseThrow(() -> new Exception("Transaction not found for id - " + id));
+  public Transaction getTransaction(long id) {
+    return this.transactionRepo.findById(id)
+        .orElseThrow(() -> new RuntimeException("Transaction not found for id - " + id));
   }
 
   @Transactional(readOnly = true)
