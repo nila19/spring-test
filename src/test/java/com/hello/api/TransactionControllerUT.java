@@ -2,28 +2,26 @@ package com.hello.api;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.hello.persistence.entity.Transaction;
 import com.hello.service.TransactionService;
 
-@ExtendWith(SpringExtension.class)
-@WebMvcTest
+@ExtendWith(MockitoExtension.class)
+//@WebMvcTest
 public class TransactionControllerUT {
   private static final Transaction t1 = new Transaction(100, "P1", "T1", 1000);
   private static final Transaction t2 = new Transaction(101, "P2", "T2", 2000);
@@ -35,9 +33,9 @@ public class TransactionControllerUT {
   @InjectMocks
   private TransactionController transactionController;
 
-  @Before
+  @BeforeEach
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
+    //    MockitoAnnotations.initMocks(this);
   }
 
   @Test

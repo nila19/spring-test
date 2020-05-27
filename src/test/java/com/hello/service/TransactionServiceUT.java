@@ -2,31 +2,33 @@ package com.hello.service;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.hello.persistence.entity.Transaction;
 import com.hello.persistence.repo.TransactionRepo;
+import com.hello.util.TransactionMatcher;
 
-@ExtendWith(SpringExtension.class)
-@WebMvcTest
+@ExtendWith(MockitoExtension.class)
+//@WebMvcTest
+//@AutoConfigureMockMvc
 public class TransactionServiceUT {
   private static final Transaction t1 = new Transaction(100, "P1", "T1", 1000);
   private static final Transaction t2 = new Transaction(101, "P2", "T2", 2000);
@@ -38,16 +40,9 @@ public class TransactionServiceUT {
   @InjectMocks
   private TransactionService transactionService;
 
-  //  @BeforeAll
-  //  public static void init() {
-  //    t1 = new Transaction("P1", "Created Dummy Product", 100);
-  //    t2 = new Transaction("P2", "Created For Update Dummy Product", 200);
-  //    t3 = new Transaction("P3", "Updated Dummy Product", 300);
-  //  }
-
-  @Before
+  @BeforeEach
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
+    //    MockitoAnnotations.initMocks(this);
   }
 
   @Test
@@ -87,6 +82,7 @@ public class TransactionServiceUT {
     Mockito.verify(this.transactionRepo, Mockito.times(1)).findAll();
   }
 
+  // using argument-captor
   @Test
   public void createTransaction_whenOK() {
     ArgumentCaptor<Transaction> argument = ArgumentCaptor.forClass(Transaction.class);
@@ -98,5 +94,19 @@ public class TransactionServiceUT {
     assertTrue(StringUtils.equalsIgnoreCase(t.getToAccount(), t1.getToAccount()));
     assertEquals(t.getAmount(), t1.getAmount(), 0.01);
     Mockito.verify(this.transactionRepo, Mockito.times(1)).save(argument.getValue());
+  }
+
+  // using custom argument-matcher
+  @Test
+  public void createTransaction_2_whenOK() {
+    Mockito.when(this.transactionRepo.save(any(Transaction.class))).thenReturn(t1);
+
+    Transaction t = this.transactionService
+        .createTransaction(t1.getFromAccount(), t1.getToAccount(), t1.getAmount());
+    assertTrue(StringUtils.equalsIgnoreCase(t.getFromAccount(), t1.getFromAccount()));
+    assertTrue(StringUtils.equalsIgnoreCase(t.getToAccount(), t1.getToAccount()));
+    assertEquals(t.getAmount(), t1.getAmount(), 0.01);
+    Mockito.verify(this.transactionRepo, Mockito.times(1))
+        .save(argThat(new TransactionMatcher(t1)));
   }
 }

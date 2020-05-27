@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import com.hello.persistence.entity.Transaction;
@@ -12,12 +13,9 @@ import com.hello.persistence.repo.TransactionRepo;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class TransactionService {
   private final TransactionRepo transactionRepo;
-
-  public TransactionService(TransactionRepo transactionRepo) {
-    this.transactionRepo = transactionRepo;
-  }
 
   @Transactional(propagation = Propagation.REQUIRED)
   public Transaction createTransaction(String fromAc, String toAc, double amount) {

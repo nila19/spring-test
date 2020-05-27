@@ -6,18 +6,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import lombok.RequiredArgsConstructor;
 
 import com.hello.persistence.entity.Transaction;
 import com.hello.service.TransactionService;
 
 @RestController
 @RequestMapping(value = "/trans")
+@RequiredArgsConstructor
 public class TransactionController {
   private final TransactionService transactionService;
-
-  public TransactionController(TransactionService transactionService) {
-    this.transactionService = transactionService;
-  }
 
   @PostMapping(value = "/save")
   public Transaction saveTransaction(@RequestBody Transaction t) {

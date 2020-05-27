@@ -5,18 +5,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 import javax.persistence.EntityManager;
 
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.hello.persistence.entity.Transaction;
 
-@RunWith(SpringRunner.class)
-//@ExtendWith(SpringExtension.class)
-//@SpringBootTest
+@ExtendWith(SpringExtension.class)
 @DataJpaTest
 public class TransactionRepoUT {
   private static final Transaction t1 = new Transaction("P1", "T1", 1000);
@@ -32,7 +30,6 @@ public class TransactionRepoUT {
 
   @BeforeAll
   public static void setup() {
-    //    this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
     System.out.println("Running before all...");
   }
 
