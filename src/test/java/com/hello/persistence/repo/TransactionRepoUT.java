@@ -17,10 +17,10 @@ import com.hello.persistence.entity.Transaction;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 public class TransactionRepoUT {
-  private static final Transaction t1 = new Transaction("P1", "T1", 1000);
-  private static final Transaction t1_2 = new Transaction("P1", "T2", 1000);
-  private static final Transaction t2 = new Transaction("P2", "T2", 2000);
-  private static final Transaction t3 = new Transaction("P3", "T3", 3000);
+  private static Transaction t1;
+  private static Transaction t1_2;
+  private static Transaction t2;
+  private static Transaction t3;
 
   @Autowired
   private EntityManager entityManager;
@@ -29,8 +29,11 @@ public class TransactionRepoUT {
   private TransactionRepo transactionRepo;
 
   @BeforeAll
-  public static void setup() {
-    System.out.println("Running before all...");
+  static void setup() {
+    t1 = new Transaction("P1", "T1", 1000);
+    t1_2 = new Transaction("P1", "T2", 1000);
+    t2 = new Transaction("P2", "T2", 2000);
+    t3 = new Transaction("P3", "T3", 3000);
   }
 
   @Test

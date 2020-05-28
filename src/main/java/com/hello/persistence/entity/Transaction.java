@@ -42,11 +42,4 @@ public class Transaction {
     this.toAccount = toAccount;
     this.amount = amount;
   }
-
-  public Transaction(Transaction t2, long transactionId) {
-    this.fromAccount = t2.fromAccount;
-    this.toAccount = t2.toAccount;
-    this.amount = t2.amount;
-    this.transactionId = transactionId;
-  }
 }

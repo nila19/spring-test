@@ -2,7 +2,9 @@ package com.hello;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import lombok.Generated;
 
+@Generated
 @SpringBootApplication
 public class Application {
   public static void main(String[] args) {
