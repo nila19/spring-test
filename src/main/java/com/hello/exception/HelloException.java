@@ -1,4 +1,4 @@
-package com.hello;
+package com.hello.exception;
 
 public class HelloException extends RuntimeException {
   private static final long serialVersionUID = 4115322292912226894L;

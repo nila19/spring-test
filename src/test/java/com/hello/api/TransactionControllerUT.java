@@ -21,15 +21,18 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.hello.api.model.Response;
-import com.hello.persistence.entity.Transaction;
+import com.hello.persistence.model.TransactionDTO;
 import com.hello.service.TransactionService;
+
+// incorrect way to do unit test for controller layer
+// below implementation is very similar to service layer UT.
 
 @ExtendWith(MockitoExtension.class)
 //@WebMvcTest
 public class TransactionControllerUT {
-  private static Transaction t1;
-  private static Transaction t2;
-  private static Transaction t3;
+  private static TransactionDTO t1;
+  private static TransactionDTO t2;
+  private static TransactionDTO t3;
 
   @Mock
   private TransactionService transactionService;
@@ -42,9 +45,9 @@ public class TransactionControllerUT {
 
   @BeforeAll
   static void setup() {
-    t1 = new Transaction(100, "P1", "T1", 1000);
-    t2 = new Transaction(101, "P2", "T2", 2000);
-    t3 = new Transaction(102, "P3", "T3", 3000);
+    t1 = new TransactionDTO(100, "P1", "T1", 1000);
+    t2 = new TransactionDTO(101, "P2", "T2", 2000);
+    t3 = new TransactionDTO(102, "P3", "T3", 3000);
   }
 
   @BeforeEach
@@ -97,12 +100,9 @@ public class TransactionControllerUT {
 
   @Test
   public void saveTransaction_whenOK() {
-    when(this.transactionService
-        .createTransaction(t1.getFromAccount(), t1.getToAccount(), t1.getAmount()))
-        .thenReturn(t1);
+    when(this.transactionService.createTransaction(t1)).thenReturn(t1);
 
     assertThat(this.transactionController.saveTransaction(t1), is(t1));
-    verify(this.transactionService, times(1))
-        .createTransaction(t1.getFromAccount(), t1.getToAccount(), t1.getAmount());
+    verify(this.transactionService, times(1)).createTransaction(t1);
   }
 }

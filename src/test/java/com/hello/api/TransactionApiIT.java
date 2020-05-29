@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.List;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,12 +26,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hello.Application;
 import com.hello.api.model.Request;
 import com.hello.config.WebConfig;
-import com.hello.persistence.entity.Transaction;
+import com.hello.persistence.model.TransactionDTO;
 import com.hello.util.API;
 import com.hello.util.TransactionMatcher;
 
@@ -39,8 +39,8 @@ import com.hello.util.TransactionMatcher;
 @WebAppConfiguration
 @ContextConfiguration(classes = WebConfig.class)
 public class TransactionApiIT {
-  private static Transaction t1;
-  private static Transaction t2;
+  private static TransactionDTO t1;
+  private static TransactionDTO t2;
 
   @Autowired
   private ObjectMapper objectMapper;
@@ -50,8 +50,8 @@ public class TransactionApiIT {
 
   @BeforeAll
   static void setup() {
-    t1 = new Transaction(100, "Acct 1", "Acct 2", 200.50);
-    t2 = new Transaction(200, "P2", "T2", 3000);
+    t1 = new TransactionDTO(100, "Acct 1", "Acct 2", 200.50);
+    t2 = new TransactionDTO(200, "P2", "T2", 3000);
   }
 
   @BeforeEach
@@ -62,14 +62,15 @@ public class TransactionApiIT {
   @Test
   public void getAll_whenFound() throws Exception {
     MockHttpServletRequestBuilder request = post(API.GET_ALL.url)
+        .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON);
     MvcResult mvcResult = this.mockMvc.perform(request)
         .andDo(print())
         .andExpect(status().isOk()).andReturn();
 
     String json = mvcResult.getResponse().getContentAsString();
-    List<Transaction> trans =
-        this.objectMapper.readValue(json, new TypeReference<List<Transaction>>() {});
+    List<TransactionDTO> trans =
+        this.objectMapper.readValue(json, new TypeReference<List<TransactionDTO>>() {});
 
     // equal to the # of records inserted via data.sql
     assertEquals(trans.size(), 4);
@@ -99,7 +100,7 @@ public class TransactionApiIT {
         .andExpect(status().isOk()).andReturn();
 
     String json = mvcResult.getResponse().getContentAsString();
-    Transaction tran = this.objectMapper.readValue(json, new TypeReference<Transaction>() {});
+    TransactionDTO tran = this.objectMapper.readValue(json, new TypeReference<TransactionDTO>() {});
 
     TransactionMatcher matcher = new TransactionMatcher(t1);
     assertTrue(matcher.matches(tran));
@@ -116,7 +117,7 @@ public class TransactionApiIT {
         .andExpect(status().isOk()).andReturn();
 
     String json = mvcResult.getResponse().getContentAsString();
-    Transaction tran = this.objectMapper.readValue(json, new TypeReference<Transaction>() {});
+    TransactionDTO tran = this.objectMapper.readValue(json, new TypeReference<TransactionDTO>() {});
 
     TransactionMatcher matcher = new TransactionMatcher(t2);
     assertTrue(matcher.matches(tran));

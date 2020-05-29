@@ -1,0 +1,404 @@
+{
+	"info": {
+		"_postman_id": "947075e6-7464-4aed-8b6f-9901aaf50d0a",
+		"name": "spring-test",
+		"description": "## APIs for SpringTest application\r\n\r\nCreates Transaction records\r\n\r\n- split by OK & Not-OK scenarios.\r\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "OK",
+			"item": [
+				{
+					"name": "hello",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d9ef0bde-8183-447e-89d8-c20d1f96f9e3",
+								"exec": [
+									"// pm.test(\"Body is correct\", () => {\r",
+									"//     pm.response.to.have.body(\"Hello World!!!\");\r",
+									"// });\r",
+									"\r",
+									"pm.test(\"Has JSON attributes\", () => {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.msg).to.eql('Hello World!!!');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/spring-test/hello/hello",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"spring-test",
+								"hello",
+								"hello"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "save",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6147f933-c7be-4d0a-ab63-b7b865581938",
+								"exec": [
+									"const newTran = pm.variables.get(\"newTran\");\r",
+									"\r",
+									"pm.test(\"Has JSON attributes\", () => {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.transactionId).to.be.above(100);\r",
+									"    pm.expect(jsonData.fromAccount).to.eql(newTran.fromAccount);\r",
+									"    pm.expect(jsonData.toAccount).to.eql(newTran.toAccount);\r",
+									"    pm.expect(jsonData.amount).to.eql(newTran.amount);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ae409ad3-f3ff-4662-99ab-3818571e1aab",
+								"exec": [
+									"const newTran = {\r",
+									"\t\"fromAccount\": \"BOA-CC\",\r",
+									"\t\"toAccount\": \"ICICI\",\r",
+									"\t\"amount\": 1900\r",
+									"};\r",
+									"pm.variables.set(\"newTran\", newTran);\r",
+									"pm.variables.set(\"newTranStr\", JSON.stringify(newTran));\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{newTranStr}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/spring-test/trans/save",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"spring-test",
+								"trans",
+								"save"
+							]
+						},
+						"description": "Add a new Transaction"
+					},
+					"response": []
+				},
+				{
+					"name": "get",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f985cacc-ee00-4954-a61b-8980ba23a545",
+								"exec": [
+									"const tran = pm.variables.get(\"tran\");\r",
+									"\r",
+									"pm.test(\"Has JSON attributes\", () => {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.transactionId).to.eql(tran.transactionId);\r",
+									"    pm.expect(jsonData.fromAccount).to.eql(tran.fromAccount);\r",
+									"    pm.expect(jsonData.toAccount).to.eql(tran.toAccount);\r",
+									"    pm.expect(jsonData.amount).to.eql(tran.amount);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "62427d4c-a8fe-4898-995c-2ee66d82be08",
+								"exec": [
+									"const tran = {\r",
+									"    \"transactionId\": 100,\r",
+									"    \"fromAccount\": \"Acct 1\",\r",
+									"    \"toAccount\": \"Acct 2\",\r",
+									"    \"amount\": 200.5\r",
+									"};\r",
+									"pm.variables.set(\"tran\", tran);\r",
+									"pm.variables.set(\"tranId\", tran.transactionId);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"transactionId\": {{tranId}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/spring-test/trans/get",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"spring-test",
+								"trans",
+								"get"
+							]
+						},
+						"description": "Fetch a transaction by the input transactionId"
+					},
+					"response": []
+				},
+				{
+					"name": "getAll",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "50294eab-0206-48df-b5a2-be20845e9315",
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Array with at least 1 item\", () => {\r",
+									"    pm.expect(jsonData).to.be.an('array');\r",
+									"    pm.expect(jsonData).to.have.lengthOf.above(0);\r",
+									"});\r",
+									"pm.test(\"Item has right JSON attributes\", () => {\r",
+									"    const item = jsonData[0];\r",
+									"    pm.expect(item).to.have.property('transactionId');\r",
+									"    pm.expect(item).to.have.property('fromAccount');\r",
+									"    pm.expect(item).to.have.property('toAccount');\r",
+									"    pm.expect(item).to.have.property('amount');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/spring-test/trans/getAll",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"spring-test",
+								"trans",
+								"getAll"
+							]
+						},
+						"description": "Fetch all Transactions"
+					},
+					"response": []
+				}
+			],
+			"description": "## APIs for all successful scenarios\r\n\r\n- should return `HTTP 200` status code.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "57db5a48-47df-441f-b97f-3151af01f70a",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "0fcb87ea-5d3c-4f8b-b1e2-7475d5927563",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.json;",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Not OK",
+			"item": [
+				{
+					"name": "get - invalid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "77c75bde-da4b-4722-99d3-2b379c3d9cb4",
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									"// 2 ways of test cases.\r",
+									"\r",
+									"const jsonData = JSON.parse(responseBody);\r",
+									"tests['Has error message'] = jsonData.message === 'Transaction not found for id - 10';\r",
+									"\r",
+									"// pm.test(\"Has error message\", () => {\r",
+									"//     const jsonData = pm.response.json();\r",
+									"//     pm.expect(jsonData.message).to.eql('Transaction not found for id - 10');\r",
+									"// });\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"transactionId\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/spring-test/trans/get",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"spring-test",
+								"trans",
+								"get"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "## APIs for all non-successful scenarios\r\n\r\n- should return `HTTP 500` status code.\r\n",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "61b7bb98-6653-4bcd-bf53-9e4d1ab2a1b4",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "a6910be6-8e2e-46f6-98c3-5aef9d67b6be",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "0d3b020d-9cdd-4b54-8030-18b440749057",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "44e933b2-9672-4766-b392-c8eef1f3f1ff",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

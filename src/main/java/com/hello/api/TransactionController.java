@@ -4,13 +4,13 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import lombok.RequiredArgsConstructor;
 
-import com.hello.persistence.entity.Transaction;
+import com.hello.persistence.model.TransactionDTO;
 import com.hello.service.TransactionService;
 
 @RestController
@@ -21,19 +21,18 @@ public class TransactionController {
 
   @PostMapping(value = "/save", consumes = APPLICATION_JSON_VALUE, produces =
       APPLICATION_JSON_VALUE)
-  public Transaction saveTransaction(@RequestBody Transaction t) {
-    return this.transactionService
-        .createTransaction(t.getFromAccount(), t.getToAccount(), t.getAmount());
+  public TransactionDTO saveTransaction(@RequestBody TransactionDTO dto) {
+    return this.transactionService.createTransaction(dto);
   }
 
   @PostMapping(value = "/get", consumes = APPLICATION_JSON_VALUE, produces =
       APPLICATION_JSON_VALUE)
-  public Transaction getTransaction(@RequestBody Transaction t) {
-    return this.transactionService.getTransaction(t.getTransactionId());
+  public TransactionDTO getTransaction(@RequestBody TransactionDTO dto) {
+    return this.transactionService.getTransaction(dto.getTransactionId());
   }
 
-  @PostMapping(value = "/getAll")
-  public List<Transaction> getAll() {
+  @PostMapping(value = "/getAll", produces = APPLICATION_JSON_VALUE)
+  public List<TransactionDTO> getAll() {
     return this.transactionService.getTransactions();
   }
 }
