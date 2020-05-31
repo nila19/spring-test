@@ -34,7 +34,8 @@ import com.hello.util.API;
 import com.hello.util.TransactionMatcher;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = Application.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = Application.class,
+    properties = {"command.line.runner.enabled=false"})
 @AutoConfigureMockMvc
 @WebAppConfiguration
 @ContextConfiguration(classes = WebConfig.class)

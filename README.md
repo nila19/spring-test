@@ -25,3 +25,23 @@
 - Create a remote Run configuration mapping to the debug-socket port
 - Setup break points in the application
 - Execute tests on the remote API
+
+## Build & Quality
+
+- Run `gradle clean build` or `gradle clean test`
+- Following quality checks will be executed
+    - Unit & Integration tests
+        - Report is available in [build/reports/tests/test/index.html](file://./build/reports/tests/test/index.html)
+        - Make sure the tests are 100% successful
+    - Jacoco code coverage 
+        - Report is available in [build/reports/jacoco/test/html/index.html](file://./build/reports/jacoco/test/html/index.html)
+        - Sources with *Generated* annotations will be ignored from code coverage
+        - Gradle configuration for `jacocoTestCoverageVerification` is set at 0.9 (90%)
+        - Make sure the code coverage is closer to 100%
+    - Checkstyle
+        - Report is available in [build/reports/checkstyle/main.html](file://./build/reports/checkstyle/main.html)
+        - Configuration & report style are present in [config/checkstyle](file://./config/checkstyle)
+        - Make sure there are no warnings or errors
+    - Spotbugs
+        - Report is available in [build/reports/spotbugs/main.html](file://./build/reports/spotbugs/main.html)
+        - Make sure there are no warnings or errors

@@ -1,13 +1,19 @@
 package com.hello.persistence.model;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
-public class TransactionDTO {
+@ToString
+public class TransactionDTO implements Serializable {
+  private static final long serialVersionUID = 1448221334863874075L;
+
   private long transactionId;
   private String fromAccount;
   private String toAccount;

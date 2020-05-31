@@ -32,7 +32,7 @@ import com.hello.persistence.model.TransactionDTO;
 import com.hello.persistence.repo.TransactionRepo;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@SpringBootTest(properties = {"command.line.runner.enabled=false", "spring.cache.type=none"})
 public class TransactionServiceUT {
   private static Transaction t1;
   private static Transaction t2;
@@ -61,7 +61,7 @@ public class TransactionServiceUT {
 
   @Test
   public void getTransaction_whenNotFound() {
-    long id = t1.getTransactionId();
+    long id = t2.getTransactionId();
     when(this.transactionRepo.findById(id)).thenReturn(Optional.empty());
 
     Exception ex =
