@@ -2,7 +2,7 @@
         xmlns="http://www.ehcache.org/v3"
         xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd">
 
-    <persistence directory="spring-test/.cache"/>
+    <persistence directory=".cache"/>
 
     <cache alias="tran" uses-template="heap-cache">
         <key-type>java.lang.Long</key-type>

@@ -32,6 +32,8 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-devtools'
 //    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
 
+    implementation group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '3.0.2'
+
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
     implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.0'
     implementation group: 'com.h2database', name: 'h2'
@@ -78,7 +80,7 @@ jacocoTestCoverageVerification {
             limit {
                 counter = 'LINE'
                 value = 'COVEREDRATIO'
-                minimum = 1.0
+                minimum = 0.5
             }
         }
     }
