@@ -1,11 +1,10 @@
 version: '3'
 
 services:
-  spring-war:
+  war:
     build:
       context: .
-      dockerfile: app.Dockerfile
-    image: spring-test-image
+      dockerfile: war.Dockerfile
+    image: spring-test-war-image
     ports:
       - 8080:8080
-

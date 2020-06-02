@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  boot:
+    build:
+      context: .
+      dockerfile: boot.Dockerfile
+    image: spring-test-boot-image
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    command: java -jar spring-test-0.0.1.jar

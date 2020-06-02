@@ -2,14 +2,13 @@ plugins {
     id "org.springframework.boot" version "2.3.0.RELEASE"
     id 'io.spring.dependency-management' version "1.0.9.RELEASE"
     id 'java'
-    id 'war'
+//    id 'war'
     id 'idea'
     id 'jacoco'
     id 'checkstyle'
     id "com.github.spotbugs" version "4.2.4"
     id "com.gorylenko.gradle-git-properties" version "2.2.2"
 }
-//apply plugin: 'war'
 //apply plugin: 'org.springframework.boot'
 //apply plugin: 'io.spring.dependency-management'
 
@@ -61,7 +60,7 @@ dependencies {
 
     spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.10.1'
 
-    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+//    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 }
 
 springBoot {
@@ -118,6 +117,8 @@ spotbugs {
 }
 spotbugsMain {
     onlyIf { !project.hasProperty('skipCheck') }
+
+    excludeFilter = file('config/spotbugs/exclusions.xml')
 
     reports {
         xml.enabled = false
