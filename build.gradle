@@ -7,9 +7,8 @@ plugins {
     id 'jacoco'
     id 'checkstyle'
     id "com.github.spotbugs" version "4.2.4"
+    id "com.gorylenko.gradle-git-properties" version "2.2.2"
 }
-//apply plugin: 'java'
-//apply plugin: 'idea'
 //apply plugin: 'war'
 //apply plugin: 'org.springframework.boot'
 //apply plugin: 'io.spring.dependency-management'
@@ -39,7 +38,7 @@ dependencies {
 
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.4.0'
 //    implementation group: 'org.springdoc', name: 'springdoc-openapi-data-rest', version: '1.4.0'
-    implementation group: 'org.springdoc', name: 'springdoc-openapi-security', version: '1.4.0'
+//    implementation group: 'org.springdoc', name: 'springdoc-openapi-security', version: '1.4.0'
 
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
     implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.0'
@@ -63,15 +62,11 @@ dependencies {
     spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.10.1'
 
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
-
-    // JAX-B dependencies for JDK 9+
-//    implementation "javax.xml.bind:jaxb-api:2.2.11"
-//    implementation "com.sun.xml.bind:jaxb-core:2.2.11"
-//    implementation "com.sun.xml.bind:jaxb-impl:2.2.11"
-//    implementation "javax.activation:activation:1.1.1"
 }
 
-//test.onlyIf { !project.hasProperty('skipTests') }
+springBoot {
+    buildInfo()
+}
 
 tasks.named('test', Test) {
     useJUnitPlatform()
