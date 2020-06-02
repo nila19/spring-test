@@ -1,5 +1,6 @@
 package com.hello;
 
+import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.hello.service.TransactionService;
 
+@Generated // exclude from Jacoco test coverage
 @ConditionalOnProperty(
     prefix = "command.line.runner",
     value = "enabled",

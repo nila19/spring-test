@@ -45,3 +45,9 @@
     - Spotbugs
         - Report is available in [build/reports/spotbugs/main.html](file://./build/reports/spotbugs/main.html)
         - Make sure there are no warnings or errors
+
+## Build only (exclude tests & QA checks)
+- Run `gradle clean build -PskipTest=Y -PskipCheck=Y`
+
+## Run with docker
+- Run `docker-compose up --build`

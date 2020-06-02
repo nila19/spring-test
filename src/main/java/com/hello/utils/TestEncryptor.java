@@ -1,7 +1,9 @@
 package com.hello.utils;
 
+import lombok.Generated;
 import org.jasypt.util.text.AES256TextEncryptor;
 
+@Generated // exclude from Jacoco test coverage
 public class TestEncryptor {
   public static void main(String[] args) {
     System.out.println("TestEncryptor => start");
