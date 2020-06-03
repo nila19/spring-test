@@ -1,0 +1,71 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /spring-test
+
+info:
+  app:
+    name: Spring-Test
+    description: Application to test integration of different modules of Spring boot
+    modules:
+      other: ehcache, jasypt, modelmapper, lombok, openapi, h2
+      spring: spring-boot, actuator, data-jpa, cache
+
+#logging:
+#  level:
+#    web: trace
+#    org:
+#      springframework:
+#        web: trace
+
+spring:
+  datasource:
+    url: ${app.datasource.url}
+    driver-class-name: ${app.datasource.driver-class-name}
+    username: ${app.datasource.username}
+    password: ${app.datasource.password}
+  jpa:
+    database-platform: ${app.datasource.dialect}
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        generate_statistics: false
+  jta:
+    enabled: false
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  cache:
+    jcache:
+      config: classpath:ehcache.xml
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  show-actuator: true
+  packages-to-scan: org.springframework, com.hello.api
+#  paths-to-match: /v1, /api/balance/**
+
+management:
+  endpoints:
+    jmx:
+      exposure:
+        exclude: "*"
+        include: info, health, metrics
+  info:
+    git:
+      mode: simple
+  metrics:
+    web:
+      server:
+        request:
+          autotime:
+            enabled: true
+
+jasypt:
+  encryptor:
+    password: C0mpl3xS@1t
