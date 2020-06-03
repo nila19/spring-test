@@ -9,3 +9,5 @@ app:
   hello:
     message: Hello World!!!
     from-id: bala@xyz.com
+  log:
+    path: C:/Java/logs/logs2.0

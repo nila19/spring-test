@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.hello.api.model.Response;
 import com.hello.exception.HelloException;
+import com.hello.utils.LogUtils;
 
 @Generated // exclude from Jacoco test coverage
 @Slf4j
@@ -18,21 +20,24 @@ public class GlobalExceptionHandler {
   @Hidden
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler(HelloException.class)
-  public void handleHelloException(final HelloException e) {
-    log.error(e.toString());
+  public Response handleHelloException(final HelloException e) {
+    LogUtils.logError(log, null, "Handling HelloException -> " + e.getMessage(), e);
+    return new Response(1000, "Exception -> " + e.getMessage());
   }
 
   @Hidden
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler(IllegalArgumentException.class)
-  public void handleIllegalArgumentException(final IllegalArgumentException e) {
-    log.error(e.toString());
+  public Response handleIllegalArgumentException(final IllegalArgumentException e) {
+    LogUtils.logError(log, null, "Handling IllegalArgumentException -> " + e.getMessage(), e);
+    return new Response(2000, "Exception -> " + e.getMessage());
   }
 
   @Hidden
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   @ExceptionHandler(Exception.class)
-  public void handleException(final Exception e) {
-    log.error(e.getMessage());
+  public Response handleException(final Exception e) {
+    LogUtils.logError(log, null, "Handling Exception -> " + e.getMessage(), e);
+    return new Response(9000, "Exception -> " + e.getMessage());
   }
 }

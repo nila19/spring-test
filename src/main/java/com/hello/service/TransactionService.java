@@ -17,6 +17,7 @@ import com.hello.persistence.entity.Transaction;
 import com.hello.persistence.mapper.TransactionMapper;
 import com.hello.persistence.model.TransactionDTO;
 import com.hello.persistence.repo.TransactionRepo;
+import com.hello.utils.LogUtils;
 
 @Slf4j
 @Service
@@ -31,6 +32,7 @@ public class TransactionService {
     Validate.isTrue(StringUtils.isNotBlank(dto.getToAccount()), "ToAc cannot be empty.");
     Validate.isTrue(dto.getAmount() != 0, "Amount cannot be zero.");
     Transaction tran = this.transactionRepo.save(this.transactionMapper.toEntity(dto));
+    LogUtils.logInfo(log, tran, "Transaction created");
     return this.transactionMapper.toDto(tran);
   }
 

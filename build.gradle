@@ -36,6 +36,8 @@ dependencies {
 
     implementation group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '3.0.2'
 
+    implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '6.4'
+
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.4.0'
 //    implementation group: 'org.springdoc', name: 'springdoc-openapi-data-rest', version: '1.4.0'
 //    implementation group: 'org.springdoc', name: 'springdoc-openapi-security', version: '1.4.0'

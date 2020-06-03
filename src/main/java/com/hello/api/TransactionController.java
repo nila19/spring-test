@@ -23,17 +23,16 @@ import com.hello.service.TransactionService;
 @RequestMapping(value = "/trans")
 @RequiredArgsConstructor
 public class TransactionController {
+  private static final String JSON = APPLICATION_JSON_VALUE;
   private final TransactionService transactionService;
 
   @Operation(summary = "Save the transaction")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Saved the transaction",
-          content = {@Content(mediaType = "application/json",
+          content = {@Content(mediaType = JSON,
               schema = @Schema(implementation = TransactionDTO.class))}),
-      @ApiResponse(responseCode = "400", description = "Invalid inputs supplied",
-          content = @Content)})
-  @PostMapping(value = "/save", consumes = APPLICATION_JSON_VALUE, produces =
-      APPLICATION_JSON_VALUE)
+      @ApiResponse(responseCode = "400", description = "Invalid inputs", content = @Content)})
+  @PostMapping(value = "/save", consumes = JSON, produces = JSON)
   public TransactionDTO saveTransaction(@RequestBody TransactionDTO dto) {
     return this.transactionService.createTransaction(dto);
   }
@@ -41,13 +40,11 @@ public class TransactionController {
   @Operation(summary = "Get a transaction by its id")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Found the transaction",
-          content = {@Content(mediaType = "application/json",
+          content = {@Content(mediaType = JSON,
               schema = @Schema(implementation = TransactionDTO.class))}),
-      @ApiResponse(responseCode = "400", description = "Invalid id supplied",
-          content = @Content),
+      @ApiResponse(responseCode = "400", description = "Invalid id", content = @Content),
   })
-  @PostMapping(value = "/get", consumes = APPLICATION_JSON_VALUE, produces =
-      APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/get", consumes = JSON, produces = JSON)
   public TransactionDTO getTransaction(@RequestBody TransactionDTO dto) {
     return this.transactionService.getTransaction(dto.getTransactionId());
   }
@@ -55,12 +52,11 @@ public class TransactionController {
   @Operation(summary = "Get all transactions")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Found transactions",
-          content = {
-              @Content(mediaType = "application/json", array = @ArraySchema(schema =
-              @Schema(implementation = TransactionDTO.class))
-              )}),
+          content = {@Content(mediaType = JSON, array = @ArraySchema(schema =
+          @Schema(implementation = TransactionDTO.class))
+          )}),
   })
-  @PostMapping(value = "/getAll", produces = APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/getAll", produces = JSON)
   public List<TransactionDTO> getAll() {
     return this.transactionService.getTransactions();
   }
