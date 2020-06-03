@@ -2,6 +2,7 @@ server:
   port: 8080
   servlet:
     context-path: /spring-test
+  shutdown: graceful
 
 info:
   app:
@@ -24,6 +25,14 @@ spring:
     driver-class-name: ${app.datasource.driver-class-name}
     username: ${app.datasource.username}
     password: ${app.datasource.password}
+    hikari:
+      connection-timeout: 5000 # 5 seconds
+      idle-timeout: 1800000 # 30 minutes
+      max-lifetime: 3600000 # 60 minutes
+      minimum-idle: 2
+      maximum-pool-size: 5
+      pool-name: spring-test-hikari-pool
+
   jpa:
     database-platform: ${app.datasource.dialect}
     open-in-view: false
@@ -42,6 +51,8 @@ spring:
   cache:
     jcache:
       config: classpath:ehcache.xml
+  lifecycle:
+    timeout-per-shutdown-phase: 5s
 
 springdoc:
   swagger-ui:
