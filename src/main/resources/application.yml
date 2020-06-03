@@ -32,7 +32,6 @@ spring:
       minimum-idle: 2
       maximum-pool-size: 5
       pool-name: spring-test-hikari-pool
-
   jpa:
     database-platform: ${app.datasource.dialect}
     open-in-view: false
@@ -53,6 +52,8 @@ spring:
       config: classpath:ehcache.xml
   lifecycle:
     timeout-per-shutdown-phase: 5s
+#  hazelcast:
+#    config: classpath:hazelcast.xml
 
 springdoc:
   swagger-ui:

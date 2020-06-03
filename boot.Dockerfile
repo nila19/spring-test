@@ -5,7 +5,6 @@ RUN gradle clean build --no-daemon -PskipTest=Y -PskipCheck=Y
 
 FROM adoptopenjdk:11-jre-hotspot as builder
 WORKDIR application
-ARG JAR_FILE=target/*.jar
 COPY --from=build /home/gradle/app/build/libs/*.jar application.jar
 RUN java -Djarmode=layertools -jar application.jar extract
 

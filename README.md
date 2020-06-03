@@ -68,3 +68,8 @@
 
 - Run `docker-compose -f docker-compose-boot.yml up --build`
 - Run `docker-compose -f docker-compose-boot.yml up`
+
+## Run with docker
+
+- Run `docker-compose -f docker-compose-boot.yml up --build`
+- Run `docker-compose -f docker-compose-boot.yml up`
