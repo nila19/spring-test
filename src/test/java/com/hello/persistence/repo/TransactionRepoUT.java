@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.hello.persistence.entity.Transaction;
+import com.hello.persistence.kvrepo.TransactionKvRepo;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -26,7 +27,7 @@ public class TransactionRepoUT {
   private EntityManager entityManager;
 
   @Autowired
-  private TransactionRepo transactionRepo;
+  private TransactionKvRepo transactionKvRepo;
 
   @BeforeAll
   static void setup() {
@@ -45,7 +46,7 @@ public class TransactionRepoUT {
 
     // when
     String fromAccount = t1.getFromAccount();
-    List<Transaction> trans = this.transactionRepo.findByFromAccount(fromAccount);
+    List<Transaction> trans = this.transactionKvRepo.findByFromAccount(fromAccount);
     // then
     trans.forEach(e -> assertThat(e.getFromAccount()).isEqualTo(fromAccount));
   }
@@ -58,7 +59,7 @@ public class TransactionRepoUT {
     this.entityManager.flush();
 
     // when
-    List<Transaction> trans = this.transactionRepo.findAll();
+    List<Transaction> trans = this.transactionKvRepo.findAll();
     // then
     trans.forEach(e -> assertThat(e.getTransactionId()).isGreaterThan(0));
   }

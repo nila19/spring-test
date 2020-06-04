@@ -22,7 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.hello.api.model.Response;
 import com.hello.persistence.model.TransactionDTO;
-import com.hello.service.TransactionService;
+import com.hello.service.TransactionKvService;
 
 // incorrect way to do unit test for controller layer
 // below implementation is very similar to service layer UT.
@@ -35,7 +35,7 @@ public class TransactionControllerUT {
   private static TransactionDTO t3;
 
   @Mock
-  private TransactionService transactionService;
+  private TransactionKvService transactionKvService;
 
   @InjectMocks
   private TransactionController transactionController;
@@ -65,44 +65,44 @@ public class TransactionControllerUT {
   public void getTransaction_whenNotFound() {
     long id = t1.getTransactionId();
     String msg = "Transaction not found for id - " + id;
-    when(this.transactionService.getTransaction(id)).thenThrow(new RuntimeException(msg));
+    when(this.transactionKvService.getTransaction(id)).thenThrow(new RuntimeException(msg));
 
     Exception ex =
         assertThrows(RuntimeException.class, () -> this.transactionController.getTransaction(t1));
     assertTrue(StringUtils.equalsIgnoreCase(msg, ex.getMessage()));
-    verify(this.transactionService, times(1)).getTransaction(id);
+    verify(this.transactionKvService, times(1)).getTransaction(id);
   }
 
   @Test
   public void getTransaction_whenFound() {
     long id = t1.getTransactionId();
-    when(this.transactionService.getTransaction(id)).thenReturn(t1);
+    when(this.transactionKvService.getTransaction(id)).thenReturn(t1);
 
     assertThat(this.transactionController.getTransaction(t1), is(t1));
-    verify(this.transactionService, times(1)).getTransaction(id);
+    verify(this.transactionKvService, times(1)).getTransaction(id);
   }
 
   @Test
   public void getAll_whenNoRecords() {
-    when(this.transactionService.getTransactions()).thenReturn(Collections.emptyList());
+    when(this.transactionKvService.getTransactions()).thenReturn(Collections.emptyList());
 
     assertThat(this.transactionController.getAll().size(), is(0));
-    verify(this.transactionService, times(1)).getTransactions();
+    verify(this.transactionKvService, times(1)).getTransactions();
   }
 
   @Test
   public void getAll_whenRecords() {
-    when(this.transactionService.getTransactions()).thenReturn(Arrays.asList(t1, t2, t3));
+    when(this.transactionKvService.getTransactions()).thenReturn(Arrays.asList(t1, t2, t3));
 
     assertThat(this.transactionController.getAll().size(), is(3));
-    verify(this.transactionService, times(1)).getTransactions();
+    verify(this.transactionKvService, times(1)).getTransactions();
   }
 
   @Test
   public void saveTransaction_whenOK() {
-    when(this.transactionService.createTransaction(t1)).thenReturn(t1);
+    when(this.transactionKvService.createTransaction(t1)).thenReturn(t1);
 
     assertThat(this.transactionController.saveTransaction(t1), is(t1));
-    verify(this.transactionService, times(1)).createTransaction(t1);
+    verify(this.transactionKvService, times(1)).createTransaction(t1);
   }
 }

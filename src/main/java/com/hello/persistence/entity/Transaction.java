@@ -1,5 +1,6 @@
 package com.hello.persistence.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,14 +15,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.keyvalue.annotation.KeySpace;
 
 @Data
-@Entity
-@EntityListeners(AuditingEntityListener.class)
-@Table(name = "TRANSACTIONS")
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
-public class Transaction {
+@Entity
+@KeySpace
+@EntityListeners(AuditingEntityListener.class)
+@Table(name = "TRANSACTIONS")
+public class Transaction implements Serializable {
+  private static final long serialVersionUID = 596484020740973272L;
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "TRANSACTION_ID")

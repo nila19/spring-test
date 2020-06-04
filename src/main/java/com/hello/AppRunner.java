@@ -11,7 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
-import com.hello.service.TransactionService;
+import com.hello.service.TransactionKvService;
 
 @Generated // exclude from Jacoco test coverage
 @ConditionalOnProperty(
@@ -22,34 +22,34 @@ import com.hello.service.TransactionService;
 @Slf4j
 @Component
 public class AppRunner implements CommandLineRunner {
-  private final TransactionService transactionService;
+  private final TransactionKvService transactionKvService;
   private final HazelcastInstance hazelcastInstance;
 
-  public AppRunner(TransactionService transactionService,
+  public AppRunner(TransactionKvService transactionKvService,
       @Qualifier("hazelcastInstance") HazelcastInstance hazelcastInstance) {
-    this.transactionService = transactionService;
+    this.transactionKvService = transactionKvService;
     this.hazelcastInstance = hazelcastInstance;
   }
 
   @Override
   public void run(String... args) {
     log.info("===> Running AppRunner...");
-    this.checkCaching();
-    this.checkHazelCast();
+    //    this.checkCaching();
+    //    this.checkHazelCast();
     log.info("===> Ending AppRunner...");
   }
 
   private void checkCaching() {
-    log.info("===> All - " + this.transactionService.getTransactions().size());
-    log.info("===> All - " + this.transactionService.getTransactions().size());
-    log.info("===> All - " + this.transactionService.getTransactions().size());
-    log.info("===> All - " + this.transactionService.getTransactions().size());
-    log.info("===> 100 - " + this.transactionService.getTransaction(100));
-    log.info("===> 100 - " + this.transactionService.getTransaction(100));
-    log.info("===> 101 - " + this.transactionService.getTransaction(101));
-    log.info("===> 101 - " + this.transactionService.getTransaction(101));
-    log.info("===> 100 - " + this.transactionService.getTransaction(100));
-    log.info("===> All - " + this.transactionService.getTransactions().size());
+    log.info("===> All - " + this.transactionKvService.getTransactions().size());
+    log.info("===> All - " + this.transactionKvService.getTransactions().size());
+    log.info("===> All - " + this.transactionKvService.getTransactions().size());
+    log.info("===> All - " + this.transactionKvService.getTransactions().size());
+    log.info("===> 100 - " + this.transactionKvService.getTransaction(100));
+    log.info("===> 100 - " + this.transactionKvService.getTransaction(100));
+    log.info("===> 101 - " + this.transactionKvService.getTransaction(101));
+    log.info("===> 101 - " + this.transactionKvService.getTransaction(101));
+    log.info("===> 100 - " + this.transactionKvService.getTransaction(100));
+    log.info("===> All - " + this.transactionKvService.getTransactions().size());
   }
 
   private void checkHazelCast() {

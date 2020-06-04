@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hello.persistence.model.TransactionDTO;
-import com.hello.service.TransactionService;
+import com.hello.service.TransactionKvService;
 
 @RestController
 @RequestMapping(value = "/trans")
 @RequiredArgsConstructor
 public class TransactionController {
   private static final String JSON = APPLICATION_JSON_VALUE;
-  private final TransactionService transactionService;
+  private final TransactionKvService transactionKvService;
 
   @Operation(summary = "Save the transaction")
   @ApiResponses(value = {
@@ -34,7 +34,7 @@ public class TransactionController {
       @ApiResponse(responseCode = "400", description = "Invalid inputs", content = @Content)})
   @PostMapping(value = "/save", consumes = JSON, produces = JSON)
   public TransactionDTO saveTransaction(@RequestBody TransactionDTO dto) {
-    return this.transactionService.createTransaction(dto);
+    return this.transactionKvService.createTransaction(dto);
   }
 
   @Operation(summary = "Get a transaction by its id")
@@ -46,7 +46,7 @@ public class TransactionController {
   })
   @PostMapping(value = "/get", consumes = JSON, produces = JSON)
   public TransactionDTO getTransaction(@RequestBody TransactionDTO dto) {
-    return this.transactionService.getTransaction(dto.getTransactionId());
+    return this.transactionKvService.getTransaction(dto.getTransactionId());
   }
 
   @Operation(summary = "Get all transactions")
@@ -58,6 +58,6 @@ public class TransactionController {
   })
   @PostMapping(value = "/getAll", produces = JSON)
   public List<TransactionDTO> getAll() {
-    return this.transactionService.getTransactions();
+    return this.transactionKvService.getTransactions();
   }
 }

@@ -5,6 +5,7 @@ import com.hazelcast.config.MapConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+//@EnableHazelcastRepositories(basePackages = {"com.hello.persistence.kvrepo"})
 @Configuration
 public class HazelcastConfig {
   @Bean

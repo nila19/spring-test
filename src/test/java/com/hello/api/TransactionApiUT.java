@@ -31,7 +31,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import com.hello.api.model.Request;
 import com.hello.exception.HelloException;
 import com.hello.persistence.model.TransactionDTO;
-import com.hello.service.TransactionService;
+import com.hello.service.TransactionKvService;
 import com.hello.util.API;
 import com.hello.util.TransactionMatcher;
 
@@ -48,7 +48,7 @@ public class TransactionApiUT {
   private ObjectMapper objectMapper;
 
   @MockBean
-  private TransactionService transactionService;
+  private TransactionKvService transactionKvService;
 
   @Autowired
   private MockMvc mockMvc;
@@ -69,7 +69,7 @@ public class TransactionApiUT {
   public void getAll_whenFound() throws Exception {
     List<TransactionDTO> transactions = Arrays.asList(t1, t2, t3);
     String json = this.objectMapper.writeValueAsString(transactions);
-    when(this.transactionService.getTransactions()).thenReturn(transactions);
+    when(this.transactionKvService.getTransactions()).thenReturn(transactions);
 
     MockHttpServletRequestBuilder request = post(API.GET_ALL.url)
         .contentType(MediaType.APPLICATION_JSON)
@@ -79,14 +79,14 @@ public class TransactionApiUT {
         .andExpect(status().isOk())
         .andExpect(content().json(json));
 
-    verify(this.transactionService, times(1)).getTransactions();
+    verify(this.transactionKvService, times(1)).getTransactions();
   }
 
   @Test
   public void getTransaction_whenNotFound() throws Exception {
     long transId = 200;
     String msg = "Transaction not found for id - " + transId;
-    when(this.transactionService.getTransaction(transId))
+    when(this.transactionKvService.getTransaction(transId))
         .thenThrow(new HelloException(msg));
 
     Request req = new Request(transId);
@@ -102,7 +102,7 @@ public class TransactionApiUT {
   @Test
   public void getTransaction_whenFound() throws Exception {
     long transId = 100;
-    when(this.transactionService.getTransaction(transId)).thenReturn(t1);
+    when(this.transactionKvService.getTransaction(transId)).thenReturn(t1);
 
     Request req = new Request(transId);
     MockHttpServletRequestBuilder request = post(API.GET.url)
@@ -122,7 +122,7 @@ public class TransactionApiUT {
 
   @Test
   public void saveTransaction_whenOK() throws Exception {
-    when(this.transactionService.createTransaction(t2)).thenReturn(t2);
+    when(this.transactionKvService.createTransaction(t2)).thenReturn(t2);
 
     MockHttpServletRequestBuilder request = post(API.SAVE.url)
         .contentType(MediaType.APPLICATION_JSON)

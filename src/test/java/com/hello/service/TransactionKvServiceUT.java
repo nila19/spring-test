@@ -36,7 +36,7 @@ import com.hello.persistence.repo.TransactionRepo;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = {"command.line.runner.enabled=false", "spring.cache.type=none"})
 @ContextConfiguration(classes = WebConfig.class)
-public class TransactionServiceUT {
+public class TransactionKvServiceUT {
   private static Transaction t1;
   private static Transaction t2;
   private static Transaction t3;
@@ -47,7 +47,7 @@ public class TransactionServiceUT {
 
   @Autowired
   //  @InjectMocks
-  private TransactionService transactionService;
+  private TransactionKvService transactionKvService;
 
   @BeforeAll
   static void setup() {
@@ -68,7 +68,7 @@ public class TransactionServiceUT {
     when(this.transactionRepo.findById(id)).thenReturn(Optional.empty());
 
     Exception ex =
-        assertThrows(RuntimeException.class, () -> this.transactionService.getTransaction(id));
+        assertThrows(RuntimeException.class, () -> this.transactionKvService.getTransaction(id));
     String msg = "Transaction not found for id - " + id;
     assertTrue(StringUtils.equalsIgnoreCase(msg, ex.getMessage()));
     verify(this.transactionRepo, times(1)).findById(id);
@@ -79,7 +79,7 @@ public class TransactionServiceUT {
     long id = t1.getTransactionId();
     when(this.transactionRepo.findById(id)).thenReturn(Optional.of(t1));
 
-    assertThat(this.transactionService.getTransaction(id), is(t1Dto));
+    assertThat(this.transactionKvService.getTransaction(id), is(t1Dto));
     verify(this.transactionRepo, times(1)).findById(id);
   }
 
@@ -87,7 +87,7 @@ public class TransactionServiceUT {
   public void getTransactions_whenNoRecords() {
     when(this.transactionRepo.findAll()).thenReturn(Collections.emptyList());
 
-    assertThat(this.transactionService.getTransactions().size(), is(0));
+    assertThat(this.transactionKvService.getTransactions().size(), is(0));
     verify(this.transactionRepo, times(1)).findAll();
   }
 
@@ -95,7 +95,7 @@ public class TransactionServiceUT {
   public void getTransactions_whenRecords() {
     when(this.transactionRepo.findAll()).thenReturn(Arrays.asList(t1, t2, t3));
 
-    assertThat(this.transactionService.getTransactions().size(), is(3));
+    assertThat(this.transactionKvService.getTransactions().size(), is(3));
     verify(this.transactionRepo, times(1)).findAll();
   }
 
@@ -105,7 +105,7 @@ public class TransactionServiceUT {
     ArgumentCaptor<Transaction> argument = ArgumentCaptor.forClass(Transaction.class);
     when(this.transactionRepo.save(argument.capture())).thenReturn(t1);
 
-    TransactionDTO dto = this.transactionService.createTransaction(t1Dto);
+    TransactionDTO dto = this.transactionKvService.createTransaction(t1Dto);
     assertTrue(StringUtils.equalsIgnoreCase(dto.getFromAccount(), t1.getFromAccount()));
     assertTrue(StringUtils.equalsIgnoreCase(dto.getToAccount(), t1.getToAccount()));
     assertEquals(dto.getAmount(), t1.getAmount(), 0.01);
@@ -117,7 +117,7 @@ public class TransactionServiceUT {
   public void createTransaction_2_whenOK() {
     when(this.transactionRepo.save(any(Transaction.class))).thenReturn(t1);
 
-    TransactionDTO dto = this.transactionService.createTransaction(t1Dto);
+    TransactionDTO dto = this.transactionKvService.createTransaction(t1Dto);
     assertTrue(StringUtils.equalsIgnoreCase(dto.getFromAccount(), t1.getFromAccount()));
     assertTrue(StringUtils.equalsIgnoreCase(dto.getToAccount(), t1.getToAccount()));
     assertEquals(dto.getAmount(), t1.getAmount(), 0.01);
@@ -128,7 +128,7 @@ public class TransactionServiceUT {
   public void createTransaction_whenNotOK_1() {
     TransactionDTO dto = new TransactionDTO(StringUtils.EMPTY, t1.getToAccount(), t1.getAmount());
     try {
-      this.transactionService.createTransaction(dto);
+      this.transactionKvService.createTransaction(dto);
       fail();
     } catch (Exception e) {
       assertTrue(StringUtils.equalsIgnoreCase(e.getMessage(), "FromAc cannot be empty."));
@@ -140,7 +140,7 @@ public class TransactionServiceUT {
   public void createTransaction_whenNotOK_2() {
     TransactionDTO dto = new TransactionDTO(t1.getFromAccount(), StringUtils.EMPTY, t1.getAmount());
     try {
-      this.transactionService.createTransaction(dto);
+      this.transactionKvService.createTransaction(dto);
       fail();
     } catch (Exception e) {
       assertTrue(StringUtils.equalsIgnoreCase(e.getMessage(), "ToAc cannot be empty."));
@@ -152,7 +152,7 @@ public class TransactionServiceUT {
   public void createTransaction_whenNotOK_3() {
     TransactionDTO dto = new TransactionDTO(t1.getFromAccount(), t1.getToAccount(), 0);
     try {
-      this.transactionService.createTransaction(dto);
+      this.transactionKvService.createTransaction(dto);
       fail();
     } catch (Exception e) {
       assertTrue(StringUtils.equalsIgnoreCase(e.getMessage(), "Amount cannot be zero."));
