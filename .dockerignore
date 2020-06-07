@@ -26,7 +26,6 @@ hs_err_pid*
 .cache
 .circleci
 build
-gradle
 http-client
 out
 docker-*.yml
