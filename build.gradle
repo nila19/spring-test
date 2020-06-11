@@ -13,7 +13,7 @@ plugins {
 //apply plugin: 'io.spring.dependency-management'
 
 version = '0.0.1'
-group = 'com.hello'
+group = 'com.springtest.spring'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
