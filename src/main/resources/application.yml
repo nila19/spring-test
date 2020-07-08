@@ -52,8 +52,13 @@ spring:
       config: classpath:ehcache.xml
   lifecycle:
     timeout-per-shutdown-phase: 5s
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: deferred
 #  hazelcast:
 #    config: classpath:hazelcast.xml
+
 
 springdoc:
   swagger-ui:
